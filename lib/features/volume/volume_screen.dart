@@ -209,7 +209,10 @@ class _VolumeRow extends StatelessWidget {
                 Icon(icon, size: 32, color: AppColors.volume),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(child: Text(label, style: theme.textTheme.titleMedium)),
-                Text(l10n.levelOf(level.level, level.max), style: theme.textTheme.titleMedium),
+                Text(
+                  l10n.levelOf(level.shownLevel, level.shownMax),
+                  style: theme.textTheme.titleMedium,
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.sm),

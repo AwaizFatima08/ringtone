@@ -133,6 +133,18 @@ void main() {
     expect(platform.volumeLevels[VolumeStream.alarm]!.level, 1);
   });
 
+  test('on a phone with 160 media levels one press moves a tenth of the way', () async {
+    final (c, platform) = await _setUp();
+    platform.volumeLevels[VolumeStream.media] = const VolumeLevel(level: 0, min: 0, max: 160);
+    await c.read(soundProvider.future);
+
+    await c.read(soundProvider.notifier).step(VolumeStream.media, 1);
+
+    final media = platform.volumeLevels[VolumeStream.media]!;
+    expect(media.level, 16);
+    expect((media.shownLevel, media.shownMax), (1, 10));
+  });
+
   test('Do Not Disturb blocking the sound mode is reported, not hidden', () async {
     final (c, platform) = await _setUp();
     platform.ringerOutcome = ChangeOutcome.needsDndAccess;

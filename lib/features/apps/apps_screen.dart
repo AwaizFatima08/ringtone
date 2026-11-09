@@ -198,7 +198,7 @@ class AppGuideScreen extends ConsumerWidget {
             return true;
           });
           if (saved != true || !context.mounted) return false;
-          await showDone(context, l10n.toneSavedFor(tone.title, app.label));
+          await showDone(context, l10n.toneSavedFor(app.label, tone.title));
           // Straight back to the steps, ready for step 2.
           if (context.mounted) Navigator.popUntil(context, ModalRoute.withName(routeName));
           return false;

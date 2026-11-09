@@ -104,7 +104,8 @@ def write_ogg(name, sig):
             w.writeframes(pcm.tobytes())
         subprocess.run(
             ["ffmpeg", "-y", "-loglevel", "error", "-i", tmp.name, "-c:a", "libvorbis", "-q:a", "5",
-             "-map_metadata", "-1", "-metadata", f"title={name}", str(OUT / f"{name}.ogg")],
+             # No title tag: Android would show it ("loud_bell") instead of the name the app saves.
+             "-map_metadata", "-1", str(OUT / f"{name}.ogg")],
             check=True,
         )
     print(f"{name}.ogg  {len(sig) / RATE:.1f} s")

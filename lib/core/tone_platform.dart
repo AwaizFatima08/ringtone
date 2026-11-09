@@ -55,6 +55,18 @@ class VolumeLevel {
   final int max;
 
   VolumeLevel copyWith({int? level}) => VolumeLevel(level: level ?? this.level, min: min, max: max);
+
+  /// The app shows every volume on a 0–10 scale, whatever the phone's own range.
+  static const shownSteps = 10;
+
+  bool get _scaled => max - min > shownSteps;
+
+  int get stepSize => _scaled ? ((max - min) / shownSteps).round() : 1;
+
+  /// For "4 of 10": the phone's own numbers when it has 10 levels or fewer.
+  int get shownLevel => _scaled ? ((level - min) * shownSteps / (max - min)).round() : level - min;
+
+  int get shownMax => _scaled ? shownSteps : max - min;
 }
 
 class InstalledApp {

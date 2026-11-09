@@ -53,7 +53,11 @@ abstract final class AppTheme {
           color: brightness == Brightness.light ? Colors.white : scheme.onSurface,
         ),
         toolbarHeight: 68,
-        iconTheme: const IconThemeData(size: 32),
+        // The colour must be set here too, or the back arrow turns dark grey on navy.
+        iconTheme: IconThemeData(
+          size: 32,
+          color: brightness == Brightness.light ? Colors.white : scheme.onSurface,
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(

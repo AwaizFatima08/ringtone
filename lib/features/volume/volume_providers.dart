@@ -37,11 +37,12 @@ class SoundController extends AsyncNotifier<SoundState> {
 
   Future<void> refresh() async => state = AsyncData(await build());
 
-  /// Moves one volume a step up or down.
+  /// Moves one volume a step up or down. Some phones have up to 160 levels; one press always
+  /// moves about a tenth of the way, so the change can be heard.
   Future<ChangeOutcome> step(VolumeStream stream, int by) async {
     final current = state.value?.volumes[stream];
     if (current == null) return ChangeOutcome.ok;
-    final level = (current.level + by).clamp(current.min, current.max);
+    final level = (current.level + by * current.stepSize).clamp(current.min, current.max);
     if (level == current.level) return ChangeOutcome.ok;
     final outcome = await _platform.setVolume(stream, level);
     await refresh();
