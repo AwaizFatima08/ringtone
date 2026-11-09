@@ -14,6 +14,7 @@ class EasyRingtoneApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp(
+    debugShowCheckedModeBanner: false,
     onGenerateTitle: (context) => context.l10n.appTitle,
     theme: AppTheme.light(),
     darkTheme: AppTheme.dark(),
