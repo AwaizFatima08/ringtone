@@ -75,10 +75,18 @@ class ListenButton extends ConsumerWidget {
     return OutlinedButton.icon(
       onPressed: () async {
         try {
-          final mode = await ref.read(playbackProvider.notifier).toggle(tone, kind);
+          final note = await ref.read(playbackProvider.notifier).toggle(tone, kind);
           if (!context.mounted) return;
-          if (mode == RingerMode.silent) showNote(context, l10n.phoneIsSilent);
-          if (mode == RingerMode.vibrate) showNote(context, l10n.phoneIsVibrate);
+          switch (note) {
+            case PlayNote.silent:
+              showNote(context, l10n.phoneIsSilent);
+            case PlayNote.vibrate:
+              showNote(context, l10n.phoneIsVibrate);
+            case PlayNote.doNotDisturb:
+              showNote(context, l10n.phoneIsDnd);
+            case PlayNote.none || null:
+              break;
+          }
         } on PlatformException {
           await ref.read(playbackProvider.notifier).stop();
           if (context.mounted) showNote(context, l10n.cannotPlay);

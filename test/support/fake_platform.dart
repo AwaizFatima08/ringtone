@@ -17,6 +17,8 @@ class FakeTonePlatform implements TonePlatform {
     VolumeStream.call: const VolumeLevel(level: 2, min: 1, max: 5),
   };
   RingerMode mode = RingerMode.vibrate;
+  bool doNotDisturb = false;
+  bool dndAccess = false;
   bool? vibrate = false;
   ChangeOutcome ringerOutcome = ChangeOutcome.ok;
   final _stopped = StreamController<void>.broadcast();
@@ -55,7 +57,11 @@ class FakeTonePlatform implements TonePlatform {
   Future<Tone?> pickAudio() async => null;
 
   @override
-  Future<RingerMode> play(String source, ToneKind kind) async => mode;
+  Future<PlayNote> play(String source, ToneKind kind) async => switch (mode) {
+    RingerMode.silent => PlayNote.silent,
+    RingerMode.vibrate => PlayNote.vibrate,
+    RingerMode.normal => doNotDisturb ? PlayNote.doNotDisturb : PlayNote.none,
+  };
 
   @override
   Future<void> stop() async => _stopped.add(null);
@@ -92,6 +98,17 @@ class FakeTonePlatform implements TonePlatform {
 
   @override
   Future<void> testVibration() async {}
+
+  @override
+  Future<bool> doNotDisturbOn() async => doNotDisturb;
+
+  @override
+  Future<ChangeOutcome> turnOffDoNotDisturb() async {
+    if (!doNotDisturb) return ChangeOutcome.ok;
+    if (!dndAccess) return ChangeOutcome.needsDndAccess;
+    doNotDisturb = false;
+    return ChangeOutcome.ok;
+  }
 
   @override
   Future<List<InstalledApp>> installedApps(List<String> packageNames) async => [

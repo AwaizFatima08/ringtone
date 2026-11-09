@@ -2,6 +2,7 @@ package com.homilabs.easyringtone
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
@@ -75,6 +76,8 @@ class ToneChannel(private val activity: Activity, messenger: BinaryMessenger) :
                 "getVibrateWhenRinging" -> result.success(vibrateWhenRinging())
                 "setVibrateWhenRinging" -> result.success(setVibrateWhenRinging(call.argument<Boolean>("on")!!))
                 "testVibration" -> { testVibration(); result.success(null) }
+                "getDoNotDisturb" -> result.success(doNotDisturbOn())
+                "turnOffDoNotDisturb" -> result.success(turnOffDoNotDisturb())
                 "installedApps" -> background(result) { installedApps(call.argument<List<String>>("packages")!!) }
                 "openAppSounds" -> result.success(openAppSounds(call.argument<String>("packageName")!!))
                 "openApp" -> result.success(openApp(call.argument<String>("packageName")!!))
@@ -307,7 +310,31 @@ class ToneChannel(private val activity: Activity, messenger: BinaryMessenger) :
         mp.prepareAsync()
         player = mp
         main.postDelayed({ if (player === mp) stop() }, 20_000)
-        return if (kind == "alarm") "normal" else ringerModeName(audio.ringerMode)
+        return playNote(kind)
+    }
+
+    /** Why the user may hear nothing: "silent", "vibrate", "doNotDisturb", or "none". */
+    private fun playNote(kind: String): String {
+        val filter = notifications.currentInterruptionFilter
+        if (kind == "alarm") return if (filter == NotificationManager.INTERRUPTION_FILTER_NONE) "doNotDisturb" else "none"
+        return when {
+            audio.ringerMode == AudioManager.RINGER_MODE_SILENT -> "silent"
+            audio.ringerMode == AudioManager.RINGER_MODE_VIBRATE -> "vibrate"
+            filter > NotificationManager.INTERRUPTION_FILTER_ALL -> "doNotDisturb"
+            else -> "none"
+        }
+    }
+
+    private val notifications get() = ctx.getSystemService(NotificationManager::class.java)
+
+    private fun doNotDisturbOn() = notifications.currentInterruptionFilter > NotificationManager.INTERRUPTION_FILTER_ALL
+
+    /** "ok", or "needsDndAccess" until the user allows Do Not Disturb access. */
+    private fun turnOffDoNotDisturb(): String {
+        if (!doNotDisturbOn()) return "ok"
+        if (!notifications.isNotificationPolicyAccessGranted) return "needsDndAccess"
+        notifications.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
+        return "ok"
     }
 
     private fun finished(mp: MediaPlayer) {
@@ -419,8 +446,8 @@ class ToneChannel(private val activity: Activity, messenger: BinaryMessenger) :
     }
 
     private fun openAppSounds(pkg: String): Boolean =
-        start(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, pkg)) ||
-            start(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$pkg")))
+        startSettings(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, pkg)) ||
+            startSettings(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$pkg")))
 
     private fun openApp(pkg: String): Boolean {
         val intent = ctx.packageManager.getLaunchIntentForPackage(pkg) ?: return false
@@ -428,11 +455,20 @@ class ToneChannel(private val activity: Activity, messenger: BinaryMessenger) :
     }
 
     private fun openSettings(page: String): Boolean = when (page) {
-        "writeSettings" -> start(Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:${ctx.packageName}")))
-        "dndAccess" -> start(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
-        "accessibility" -> start(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-        else -> start(Intent(Settings.ACTION_SOUND_SETTINGS))
+        "writeSettings" -> startSettings(Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:${ctx.packageName}")))
+        "dndAccess" -> startSettings(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+        "doNotDisturb" -> startSettings(Intent("android.settings.ZEN_MODE_SETTINGS")) ||
+            startSettings(Intent(Settings.ACTION_SOUND_SETTINGS))
+        "accessibility" -> startSettings(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        else -> startSettings(Intent(Settings.ACTION_SOUND_SETTINGS))
     }
+
+    /**
+     * Settings runs in its own task on many phones (Oppo, Samsung). Starting it fresh means Back leaves Settings
+     * and returns here, instead of walking through pages someone opened there earlier.
+     */
+    private fun startSettings(intent: Intent) =
+        start(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
 
     private fun start(intent: Intent): Boolean = try {
         activity.startActivity(intent)

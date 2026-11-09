@@ -11,10 +11,12 @@ import '../support/fake_platform.dart';
 Future<FakeTonePlatform> _pumpApp(
   WidgetTester tester, {
   Map<String, Object> prefs = const {},
+  void Function(FakeTonePlatform)? setUp,
 }) async {
   SharedPreferences.setMockInitialValues(prefs);
   final sharedPrefs = await SharedPreferences.getInstance();
   final platform = FakeTonePlatform();
+  setUp?.call(platform);
   // A small phone held upright, with big text, as many elderly users set it.
   tester.view.physicalSize = const Size(720, 1520);
   tester.view.devicePixelRatio = 2;
@@ -94,6 +96,17 @@ void main() {
     await _tapText(tester, 'Sound on');
     expect(platform.mode, RingerMode.normal);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('volume page warns about Do Not Disturb and opens its switch', (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final platform = await _pumpApp(tester, setUp: (p) => p.doNotDisturb = true);
+
+    await _tapText(tester, 'Volume & vibration');
+    expect(find.text('“Do Not Disturb” is on'), findsOneWidget);
+    await _tapText(tester, 'Turn it off');
+
+    expect(platform.opened, ['settings:doNotDisturb']);
   });
 
   testWidgets('WhatsApp guide opens the app sound page', (tester) async {

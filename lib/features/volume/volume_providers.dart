@@ -4,13 +4,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Sound mode, volumes and "vibrate when ringing", read together and re-read when the user comes
 /// back from Android's settings.
 class SoundState {
-  const SoundState({required this.mode, required this.volumes, required this.vibrateWhenRinging});
+  const SoundState({
+    required this.mode,
+    required this.volumes,
+    required this.vibrateWhenRinging,
+    required this.doNotDisturb,
+  });
 
   final RingerMode mode;
   final Map<VolumeStream, VolumeLevel> volumes;
 
   /// Null when the phone has no such setting.
   final bool? vibrateWhenRinging;
+
+  /// Do Not Disturb silences calls and messages even at full volume.
+  final bool doNotDisturb;
 }
 
 class SoundController extends AsyncNotifier<SoundState> {
@@ -23,6 +31,7 @@ class SoundController extends AsyncNotifier<SoundState> {
       mode: await platform.ringerMode(),
       volumes: await platform.volumes(),
       vibrateWhenRinging: await platform.vibrateWhenRinging(),
+      doNotDisturb: await platform.doNotDisturbOn(),
     );
   }
 
@@ -51,11 +60,21 @@ class SoundController extends AsyncNotifier<SoundState> {
     return outcome;
   }
 
-  /// "Make my phone loud": sound on, ring / message / alarm at the top, vibrate when ringing.
+  Future<ChangeOutcome> turnOffDoNotDisturb() async {
+    final outcome = await _platform.turnOffDoNotDisturb();
+    await refresh();
+    return outcome;
+  }
+
+  /// "Make my phone loud": Do Not Disturb off, sound on, ring / message / alarm at the top,
+  /// vibrate when ringing.
   /// Returns the first problem, or ok.
   Future<ChangeOutcome> makeLoud() async {
     final platform = _platform;
-    final outcomes = <ChangeOutcome>[await platform.setRingerMode(RingerMode.normal)];
+    final outcomes = <ChangeOutcome>[
+      await platform.turnOffDoNotDisturb(),
+      await platform.setRingerMode(RingerMode.normal),
+    ];
     final volumes = await platform.volumes();
     for (final stream in [VolumeStream.ring, VolumeStream.message, VolumeStream.alarm]) {
       if (volumes[stream] case final v?) outcomes.add(await platform.setVolume(stream, v.max));

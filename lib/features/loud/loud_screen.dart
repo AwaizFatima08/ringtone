@@ -8,6 +8,7 @@ import 'package:easyringtone/features/tones/view/tone_sources_screen.dart';
 import 'package:easyringtone/features/volume/volume_providers.dart';
 import 'package:easyringtone/ui/feedback.dart';
 import 'package:easyringtone/ui/theme.dart';
+import 'package:easyringtone/ui/widgets/dnd_card.dart';
 import 'package:easyringtone/ui/widgets/stop_playback_on_exit.dart';
 import 'package:easyringtone/ui/widgets/tone_row.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class LoudScreen extends ConsumerWidget {
         body: ListView(
           padding: const EdgeInsets.all(AppSpacing.md),
           children: [
+            const DoNotDisturbCard(),
             Text(l10n.loudIntro, style: theme.textTheme.bodyLarge),
             const SizedBox(height: AppSpacing.md),
             FilledButton.icon(

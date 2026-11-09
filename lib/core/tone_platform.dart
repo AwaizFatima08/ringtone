@@ -32,6 +32,18 @@ enum RingerMode {
       values.firstWhere((v) => v.name == wire, orElse: () => RingerMode.normal);
 }
 
+/// Why a tone that plays may not be heard.
+enum PlayNote {
+  none,
+  silent,
+  vibrate,
+  doNotDisturb
+  ;
+
+  static PlayNote parse(String? wire) =>
+      values.firstWhere((v) => v.name == wire, orElse: () => PlayNote.none);
+}
+
 /// The five volumes the app shows, in screen order.
 enum VolumeStream { ring, message, alarm, media, call }
 
@@ -54,7 +66,7 @@ class InstalledApp {
 }
 
 /// Pages that belong to Android's own Settings app.
-enum SettingsPage { writeSettings, dndAccess, accessibility, sound }
+enum SettingsPage { writeSettings, dndAccess, doNotDisturb, accessibility, sound }
 
 /// Everything the app asks of Android. Throws [PlatformException] on a native error.
 abstract interface class TonePlatform {
@@ -72,8 +84,8 @@ abstract interface class TonePlatform {
   /// Android's file picker for sounds. Null when the user backed out.
   Future<Tone?> pickAudio();
 
-  /// Plays on the volume the real tone uses. Returns the sound mode so the UI can warn about silent.
-  Future<RingerMode> play(String source, ToneKind kind);
+  /// Plays on the volume the real tone uses. Says why it may not be heard, so the UI can warn.
+  Future<PlayNote> play(String source, ToneKind kind);
 
   Future<void> stop();
 
@@ -94,6 +106,11 @@ abstract interface class TonePlatform {
   Future<ChangeOutcome> setVibrateWhenRinging({required bool on});
 
   Future<void> testVibration();
+
+  Future<bool> doNotDisturbOn();
+
+  /// Turns Do Not Disturb off; needs Do Not Disturb access.
+  Future<ChangeOutcome> turnOffDoNotDisturb();
 
   Future<List<InstalledApp>> installedApps(List<String> packageNames);
 
@@ -162,7 +179,7 @@ class MethodChannelTonePlatform implements TonePlatform {
   }
 
   @override
-  Future<RingerMode> play(String source, ToneKind kind) async => RingerMode.parse(
+  Future<PlayNote> play(String source, ToneKind kind) async => PlayNote.parse(
     await _channel.invokeMethod<String>('play', {..._kind(kind), 'source': source}),
   );
 
@@ -210,6 +227,14 @@ class MethodChannelTonePlatform implements TonePlatform {
 
   @override
   Future<void> testVibration() => _channel.invokeMethod<void>('testVibration');
+
+  @override
+  Future<bool> doNotDisturbOn() async =>
+      await _channel.invokeMethod<bool>('getDoNotDisturb') ?? false;
+
+  @override
+  Future<ChangeOutcome> turnOffDoNotDisturb() async =>
+      ChangeOutcome.parse(await _channel.invokeMethod<String>('turnOffDoNotDisturb'));
 
   @override
   Future<List<InstalledApp>> installedApps(List<String> packageNames) async {

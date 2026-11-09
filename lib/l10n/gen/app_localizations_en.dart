@@ -41,6 +41,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your phone is on Vibrate, so you may hear nothing. Turn the sound on in “Volume & vibration”.';
 
   @override
+  String get phoneIsDnd =>
+      '“Do Not Disturb” is on, so you may hear nothing. Turn it off in “Volume & vibration”.';
+
+  @override
+  String get dndOnTitle => '“Do Not Disturb” is on';
+
+  @override
+  String get dndOnBody => 'Calls and messages make no sound while it is on, even at full volume.';
+
+  @override
+  String get turnOffDnd => 'Turn it off';
+
+  @override
   String get cannotPlay => 'This sound cannot be played.';
 
   @override

@@ -7,6 +7,7 @@ import 'package:easyringtone/features/volume/volume_providers.dart';
 import 'package:easyringtone/l10n/gen/app_localizations.dart';
 import 'package:easyringtone/ui/feedback.dart';
 import 'package:easyringtone/ui/theme.dart';
+import 'package:easyringtone/ui/widgets/dnd_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,6 +50,7 @@ class _VolumeScreenState extends ConsumerState<VolumeScreen> {
         AsyncData(value: final s) => ListView(
           padding: const EdgeInsets.all(AppSpacing.md),
           children: [
+            const DoNotDisturbCard(),
             Text(l10n.soundMode, style: theme.textTheme.titleMedium),
             const SizedBox(height: AppSpacing.sm),
             _ModeButtons(mode: s.mode, onChoose: (m) => _guard(() => _notifier.setMode(m))),

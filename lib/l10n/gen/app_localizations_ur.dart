@@ -41,6 +41,19 @@ class AppLocalizationsUr extends AppLocalizations {
       'آپ کا فون صرف تھرتھراہٹ (Vibrate) پر ہے، اس لیے آواز نہیں آئے گی۔ “آواز اور تھرتھراہٹ” میں آواز آن کریں۔';
 
   @override
+  String get phoneIsDnd =>
+      '“ڈسٹرب نہ کریں” آن ہے، اس لیے آواز نہیں آئے گی۔ “آواز اور تھرتھراہٹ” میں اسے بند کریں۔';
+
+  @override
+  String get dndOnTitle => '“ڈسٹرب نہ کریں” آن ہے';
+
+  @override
+  String get dndOnBody => 'یہ آن ہو تو کال اور پیغام پر آواز نہیں آتی، چاہے آواز پوری اونچی ہو۔';
+
+  @override
+  String get turnOffDnd => 'اسے بند کریں';
+
+  @override
   String get cannotPlay => 'یہ آواز چل نہیں سکتی۔';
 
   @override

@@ -10,6 +10,10 @@
   "stop": "Stop",
   "phoneIsSilent": "Your phone is on Silent, so you may hear nothing. Turn the sound on in “Volume & vibration”.",
   "phoneIsVibrate": "Your phone is on Vibrate, so you may hear nothing. Turn the sound on in “Volume & vibration”.",
+  "phoneIsDnd": "“Do Not Disturb” is on, so you may hear nothing. Turn it off in “Volume & vibration”.",
+  "dndOnTitle": "“Do Not Disturb” is on",
+  "dndOnBody": "Calls and messages make no sound while it is on, even at full volume.",
+  "turnOffDnd": "Turn it off",
   "cannotPlay": "This sound cannot be played.",
   "doneCall": "Done! When someone calls, your phone will ring with “{title}”.",
   "@doneCall": {

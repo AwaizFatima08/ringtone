@@ -153,6 +153,30 @@ abstract class AppLocalizations {
   /// **'Your phone is on Vibrate, so you may hear nothing. Turn the sound on in “Volume & vibration”.'**
   String get phoneIsVibrate;
 
+  /// No description provided for @phoneIsDnd.
+  ///
+  /// In en, this message translates to:
+  /// **'“Do Not Disturb” is on, so you may hear nothing. Turn it off in “Volume & vibration”.'**
+  String get phoneIsDnd;
+
+  /// No description provided for @dndOnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'“Do Not Disturb” is on'**
+  String get dndOnTitle;
+
+  /// No description provided for @dndOnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Calls and messages make no sound while it is on, even at full volume.'**
+  String get dndOnBody;
+
+  /// No description provided for @turnOffDnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it off'**
+  String get turnOffDnd;
+
   /// No description provided for @cannotPlay.
   ///
   /// In en, this message translates to:

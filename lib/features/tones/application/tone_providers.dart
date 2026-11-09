@@ -117,8 +117,8 @@ class Playback extends Notifier<String?> {
     return null;
   }
 
-  /// Starts [tone], or stops it when it is already playing. Returns the sound mode when it starts.
-  Future<RingerMode?> toggle(Tone tone, ToneKind kind) async {
+  /// Starts [tone], or stops it when it is already playing. Returns why it may not be heard when it starts.
+  Future<PlayNote?> toggle(Tone tone, ToneKind kind) async {
     final platform = ref.read(tonePlatformProvider);
     if (state == tone.source) {
       await platform.stop();

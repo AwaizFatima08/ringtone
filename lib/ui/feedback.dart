@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 Future<void> showDone(BuildContext context, String message) => showDialog<void>(
   context: context,
   builder: (context) => AlertDialog(
+    scrollable: true,
     icon: const Icon(Icons.check_circle, color: AppColors.call, size: 72),
     content: Text(message, textAlign: TextAlign.center),
     actions: [_OkButton(label: context.l10n.ok)],
@@ -19,6 +20,7 @@ Future<void> showDone(BuildContext context, String message) => showDialog<void>(
 Future<void> showProblem(BuildContext context, String message) => showDialog<void>(
   context: context,
   builder: (context) => AlertDialog(
+    scrollable: true,
     icon: Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error, size: 64),
     content: Text(message, textAlign: TextAlign.center),
     actions: [_OkButton(label: context.l10n.ok)],
@@ -40,11 +42,17 @@ Future<bool> askYesNo(
       icon: Icon(icon, size: 56, color: Theme.of(context).colorScheme.primary),
       title: Text(title, textAlign: TextAlign.center),
       content: Text(message),
-      actionsOverflowDirection: VerticalDirection.up,
-      actionsOverflowButtonSpacing: AppSpacing.sm,
+      scrollable: true,
+      // Stacked, full width: easy to read and hard to miss at large text sizes.
       actions: [
-        OutlinedButton(onPressed: () => Navigator.pop(context, false), child: Text(no)),
-        FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(yes)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(yes)),
+            const SizedBox(height: AppSpacing.sm),
+            OutlinedButton(onPressed: () => Navigator.pop(context, false), child: Text(no)),
+          ],
+        ),
       ],
     ),
   );

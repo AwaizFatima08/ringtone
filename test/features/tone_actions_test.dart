@@ -107,6 +107,18 @@ void main() {
     expect(platform.vibrate, isTrue);
   });
 
+  test('"Make my phone loud" reports Do Not Disturb it may not turn off', () async {
+    final (c, platform) = await _setUp();
+    platform.doNotDisturb = true;
+    await c.read(soundProvider.future);
+
+    expect(await c.read(soundProvider.notifier).makeLoud(), ChangeOutcome.needsDndAccess);
+
+    platform.dndAccess = true;
+    expect(await c.read(soundProvider.notifier).makeLoud(), ChangeOutcome.ok);
+    expect(platform.doNotDisturb, isFalse);
+  });
+
   test('volume steps stop at the ends', () async {
     final (c, platform) = await _setUp();
     await c.read(soundProvider.future);
