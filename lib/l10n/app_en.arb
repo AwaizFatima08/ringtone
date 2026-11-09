@@ -1,0 +1,222 @@
+{
+  "@@locale": "en",
+  "appTitle": "Easy Ringtone",
+  "ok": "OK",
+  "pleaseWait": "Please wait…",
+  "somethingWrong": "Sorry, that did not work. Please try again.",
+  "tryAgain": "Try again",
+  "inUseNow": "In use now",
+  "listen": "Listen",
+  "stop": "Stop",
+  "phoneIsSilent": "Your phone is on Silent, so you may hear nothing. Turn the sound on in “Volume & vibration”.",
+  "phoneIsVibrate": "Your phone is on Vibrate, so you may hear nothing. Turn the sound on in “Volume & vibration”.",
+  "cannotPlay": "This sound cannot be played.",
+  "doneCall": "Done! When someone calls, your phone will ring with “{title}”.",
+  "@doneCall": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "doneMessage": "Done! New messages will now sound with “{title}”.",
+  "@doneMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "doneAlarm": "Done! Your alarm will now ring with “{title}”.",
+  "@doneAlarm": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "permissionTitle": "One-time step",
+  "permissionBody": "To change your phone's tone, Android needs your OK once.\n\nOn the next page, turn ON the switch next to “Easy Ringtone”, then press Back.",
+  "openSettings": "Open",
+  "notNow": "Not now",
+  "permissionStillOff": "The switch is still off, so the tone was not changed.",
+  "dndTitle": "Do Not Disturb is on",
+  "dndBody": "Android needs your OK before this app can change the sound while Do Not Disturb is on.\n\nOn the next page, tap “Easy Ringtone” and turn it ON, then press Back.",
+  "useThis": "Use this",
+  "chooseFrom": "Choose a new tone from:",
+  "sourcePhone": "Phone's tones",
+  "sourcePhoneHint": "Tones already on your phone",
+  "sourceFile": "Song or sound from my phone",
+  "sourceFileHint": "Music, WhatsApp audio, downloads",
+  "sourceVoice": "Record my voice",
+  "sourceVoiceHint": "Say a name or a few words",
+  "sourceLoud": "Loud tones",
+  "sourceLoudHint": "Easy to hear, for weak hearing",
+  "homeCall": "Call ringtone",
+  "homeCallHint": "When someone phones you",
+  "homeMessage": "Message tone",
+  "homeMessageHint": "SMS and notifications",
+  "homeAlarm": "Alarm tone",
+  "homeAlarmHint": "Your wake-up alarm",
+  "homeApps": "WhatsApp & other apps",
+  "homeAppsHint": "Messenger, Facebook, imo and more",
+  "homeVolume": "Volume & vibration",
+  "homeVolumeHint": "Louder, softer, silent, vibrate",
+  "homeLoud": "Loud tones (weak hearing)",
+  "homeLoudHint": "Make the phone as loud as it goes",
+  "nowUsing": "Your phone uses now:",
+  "unknownTone": "A tone",
+  "noTone": "No sound (silent)",
+  "myTones": "My tones",
+  "phoneTones": "Phone's own tones",
+  "noPhoneTones": "No tones found on this phone.",
+  "songTip": "Press Listen first. A ringtone plays from the start of the song.",
+  "loudBell": "Old phone bell",
+  "loudDeepBeep": "Deep beep",
+  "loudWarmChime": "Warm chime",
+  "loudStrongPulse": "Strong pulse",
+  "loudDoubleTone": "Double tone",
+  "loudKnock": "Knock knock",
+  "micDenied": "To record your voice, allow the microphone when the phone asks.",
+  "myVoice": "My voice {number}",
+  "@myVoice": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "recordingTooShort": "That was too short. Please record again.",
+  "recordingNow": "Recording… speak now. Press Stop when you finish.",
+  "recordTip": "Press the red button and speak, for example: “Phone for you!”",
+  "startRecording": "Record",
+  "stopRecording": "Stop",
+  "secondsOf": "{seconds} of {max} seconds",
+  "@secondsOf": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "appsIntro": "Android lets only you change another app's sound. Tap an app and follow the steps.",
+  "noChatApps": "No chat apps found on this phone.",
+  "otherAppSettings": "Another app: phone's sound settings",
+  "appGuideIntro": "Three easy steps to change the sound of {app}.",
+  "@appGuideIntro": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "appStep1": "Choose the tone you want. We add it to your phone's list.",
+  "chooseATone": "Choose a tone",
+  "appStep2": "Open the sound page of {app}.",
+  "@appStep2": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "openAppSounds": "Open {app} sounds",
+  "@openAppSounds": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "appStep3": "There, tap “Sound” (or “Notification tone”) and pick your tone from the list. Then press Back.",
+  "whatsappTip": "{app} also has its own sound settings: open {app}, tap ⋮ (top corner) → Settings → Notifications → Notification tone or Ringtone.",
+  "@whatsappTip": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "openApp": "Open {app}",
+  "@openApp": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "addToneIntro": "The tone you save here can be picked inside {app}.",
+  "@addToneIntro": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTone": "Save",
+  "toneSavedFor": "Saved! Now open {app}'s sounds and look for “{title}”.",
+  "@toneSavedFor": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "soundMode": "Sound mode",
+  "modeSound": "Sound on",
+  "modeVibrate": "Vibrate only",
+  "modeSilent": "Silent",
+  "volumes": "Volume",
+  "volumeRing": "Ringtone",
+  "volumeMessage": "Messages",
+  "volumeAlarm": "Alarm",
+  "volumeMedia": "Music and videos",
+  "volumeCall": "Voice during a call",
+  "levelOf": "{level} of {max}",
+  "@levelOf": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "quieter": "Quieter",
+  "louder": "Louder",
+  "vibration": "Vibration",
+  "vibrateWhenRinging": "Vibrate when ringing",
+  "vibrateNotAllowed": "This phone keeps this switch in its own Settings. Open Sound settings and look for “Vibrate for calls”.",
+  "testVibration": "Test vibration",
+  "moreSoundSettings": "More sound settings",
+  "loudIntro": "For people who hear less. Press the big red button to make your phone as loud as it can be, and pick a loud tone below.",
+  "makeLoud": "Make my phone loud",
+  "madeLoud": "Done! Sound is on, ringtone, messages and alarm are at full volume, and the phone vibrates when it rings (where allowed).",
+  "loudTones": "Loud tones",
+  "useFor": "Use this tone for:",
+  "flashTitle": "Flash light when a call comes",
+  "flashBody": "Many phones can flash the light for calls and messages. Open Accessibility and look for “Flash notification”.",
+  "about": "About and privacy",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBody": "Change your call, message and alarm tones, record your own voice, set WhatsApp and other app sounds, and control volume and vibration, all from one simple screen.",
+  "privacyTitle": "Privacy",
+  "privacyBody": "Your recordings and tones stay on your phone. The app has no account and sends none of your sounds anywhere. Ads are shown by Google AdMob.",
+  "copyLink": "Copy privacy link",
+  "copied": "Copied",
+  "privacyChoices": "Ad privacy choices",
+  "madeBy": "Made by HomiLabs"
+}

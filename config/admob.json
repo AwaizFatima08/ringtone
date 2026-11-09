@@ -1,0 +1,23 @@
+{
+  "_note": "AdMob config for Easy Ringtone (Android). Account homilabs.smc@gmail.com (publisher pub-2087846699268567, same as the other HomiLabs apps). App and unit created 2026-11-09 (AdMob app 'Requires review' until the Play listing is linked as its store). Debug builds use Google's test unit. Ad ids are not secrets.",
+  "account": "homilabs.smc@gmail.com",
+  "publisher_id": "pub-2087846699268567",
+  "app": {
+    "name": "Easy Ringtone",
+    "platform": "android",
+    "package": "com.homilabs.easyringtone",
+    "app_id": "ca-app-pub-2087846699268567~9304654610",
+    "status": "created 2026-11-09; add the Play store listing in AdMob once the app is live"
+  },
+  "ad_units": {
+    "home_banner": {
+      "name": "easyringtone_home_banner",
+      "format": "banner",
+      "id": "ca-app-pub-2087846699268567/1100850638",
+      "placement": "bottom of the home screen only, below the six buttons with space between; never on tone, recording, volume or settings pages"
+    }
+  },
+  "no_full_screen_ads": "Deliberate (design E10): elderly, low-tech audience.",
+  "app_ads_txt": "google.com, pub-2087846699268567, DIRECT, f08c47fec0942fa0",
+  "consent": "Google UMP before SDK init"
+}
