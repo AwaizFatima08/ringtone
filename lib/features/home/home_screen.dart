@@ -11,6 +11,7 @@ import 'package:easyringtone/features/tones/view/tone_sources_screen.dart';
 import 'package:easyringtone/features/volume/volume_screen.dart';
 import 'package:easyringtone/ui/theme.dart';
 import 'package:easyringtone/ui/widgets/big_tile.dart';
+import 'package:easyringtone/ui/widgets/header_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,6 +44,7 @@ class HomeScreen extends ConsumerWidget {
               child: ListView(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 children: [
+                  const HeaderImage('assets/headers/home.jpg'),
                   BigTile(
                     icon: Icons.call,
                     color: AppColors.call,

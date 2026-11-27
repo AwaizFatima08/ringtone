@@ -54,8 +54,16 @@ Future<void> _open(WidgetTester tester, String text) async {
   await tester.pumpAndSettle();
 }
 
-Future<void> _shot(String name) =>
-    expectLater(find.byType(MaterialApp), matchesGoldenFile('out/$name.png'));
+Future<void> _shot(WidgetTester tester, String name) async {
+  // Header pictures decode off the test clock: finish them before the golden is taken.
+  await tester.runAsync(() async {
+    for (final element in find.byType(Image).evaluate()) {
+      await precacheImage((element.widget as Image).image, element);
+    }
+  });
+  await tester.pumpAndSettle();
+  await expectLater(find.byType(MaterialApp), matchesGoldenFile('out/$name.png'));
+}
 
 void main() {
   final flutterRoot = Platform.environment['FLUTTER_ROOT']!;
@@ -75,29 +83,29 @@ void main() {
 
   testWidgets('1 home', (tester) async {
     await _pumpApp(tester);
-    await _shot('1_home_en');
+    await _shot(tester, '1_home_en');
   });
 
   testWidgets('2 call', (tester) async {
     await _pumpApp(tester);
     await _open(tester, 'Call ringtone');
-    await _shot('2_call_en');
+    await _shot(tester, '2_call_en');
   });
 
   testWidgets('3 loud', (tester) async {
     await _pumpApp(tester);
     await _open(tester, 'Loud tones (weak hearing)');
-    await _shot('3_loud_en');
+    await _shot(tester, '3_loud_en');
   });
 
   testWidgets('4 volume', (tester) async {
     await _pumpApp(tester);
     await _open(tester, 'Volume & vibration');
-    await _shot('4_volume_en');
+    await _shot(tester, '4_volume_en');
   });
 
   testWidgets('5 home urdu', (tester) async {
     await _pumpApp(tester, locale: 'ur');
-    await _shot('5_home_ur');
+    await _shot(tester, '5_home_ur');
   });
 }
